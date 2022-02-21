@@ -1,0 +1,7 @@
+data/ch.laurinneff.Lyrics.desktop.in
+data/ch.laurinneff.Lyrics.appdata.xml.in
+data/ch.laurinneff.Lyrics.gschema.xml
+src/window.ui
+src/main.vala
+src/window.vala
+

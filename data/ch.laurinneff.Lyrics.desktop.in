@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Lyrics
+Exec=ch.laurinneff.Lyrics
+Icon=ch.laurinneff.Lyrics
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
