@@ -26,6 +26,8 @@ namespace Lyrics {
 	    [GtkChild]
 	    private unowned Gtk.Stack stack;
 	    [GtkChild]
+	    private unowned Gtk.Viewport unsynced_viewport;
+	    [GtkChild]
 	    private unowned Gtk.ListView unsynced_list_view;
 	    [GtkChild]
 	    private unowned Gtk.ProgressBar progress_bar;
@@ -82,6 +84,7 @@ namespace Lyrics {
 			                    unsynced = instrumental_placeholder;
 			                }
                             unsynced_list_view.model = new Gtk.NoSelection(unsynced);
+                            unsynced_viewport.vadjustment.value = 0;
                             stack.visible_child_name = "unsynced";
 		                } else {
 		                    var empty_placeholder = new ListStore(typeof(Lyric));

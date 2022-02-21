@@ -48,7 +48,7 @@
                         <property name="child">
                           <object class="GtkScrolledWindow">
                             <child>
-                              <object class="GtkViewport">
+                              <object class="GtkViewport" id="unsynced_viewport">
                                 <child>
                                   <object class="GtkListView" id="unsynced_list_view">
                                     <property name="can-target">false</property>
