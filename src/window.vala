@@ -67,37 +67,43 @@ namespace Lyrics {
 			    // I know reconnecting every 100ms is bad, but position changes don't emit the property change signal so the cache isn't cleared
 			    var mpris = yield Mpris.get(player);
 
-			    var new_track = new TrackInfo(player, mpris.metadata);
-			    if(current_track == null || new_track.track_id != current_track.track_id) {
-			        current_track = new_track;
-			        message("getting for %s", current_track.track_id);
-                    stack.visible_child_name = "loading";
-			        var id = yield provider.search(current_track);
-			        if(id != null) {
-			            var unsynced = yield provider.get_unsynced(id);
-			            if(unsynced.get_n_items() == 0) {
-			                var instrumental_placeholder = new ListStore(typeof(Lyric));
-			                instrumental_placeholder.append(new Lyric("🎝 Instrumental 🎝"));
-			                unsynced = instrumental_placeholder;
-			            }
-                        unsynced_list_view.model = new Gtk.NoSelection(unsynced);
-                        stack.visible_child_name = "unsynced";
-		            } else {
-		                var empty_placeholder = new ListStore(typeof(Lyric));
-		                empty_placeholder.append(new Lyric("<span style=\"italic\">No Lyrics found</span>"));
-                        unsynced_list_view.model = new Gtk.NoSelection(empty_placeholder);
-                        stack.visible_child_name = "unsynced";
-		                warning("not found");
-		            }
-			    }
+			    if(mpris == null || mpris.playback_status != "Stopped") {
+			        var new_track = new TrackInfo(player, mpris.metadata);
+			        if(current_track == null || new_track.track_id != current_track.track_id) {
+			            current_track = new_track;
+			            message("getting for %s", current_track.track_id);
+                        stack.visible_child_name = "loading";
+			            var id = yield provider.search(current_track);
+			            if(id != null) {
+			                var unsynced = yield provider.get_unsynced(id);
+			                if(unsynced.get_n_items() == 0) {
+			                    var instrumental_placeholder = new ListStore(typeof(Lyric));
+			                    instrumental_placeholder.append(new Lyric("🎝 Instrumental 🎝"));
+			                    unsynced = instrumental_placeholder;
+			                }
+                            unsynced_list_view.model = new Gtk.NoSelection(unsynced);
+                            stack.visible_child_name = "unsynced";
+		                } else {
+		                    var empty_placeholder = new ListStore(typeof(Lyric));
+		                    empty_placeholder.append(new Lyric("<span style=\"italic\">No Lyrics found</span>"));
+                            unsynced_list_view.model = new Gtk.NoSelection(empty_placeholder);
+                            stack.visible_child_name = "unsynced";
+		                    warning("not found");
+		                }
+			        }
 
-		        if(mpris.playback_status == "Playing") {
-                    title = "%s - %s".printf(string.joinv(", ", mpris.artists), mpris.title);
+		            if(mpris.playback_status == "Playing") {
+                        title = "%s - %s".printf(string.joinv(", ", mpris.artists), mpris.title);
+                    }
+
+                    progress_bar.fraction = 1.0 * mpris.position / mpris.length;
                 } else {
                     title = "Lyrics";
+                    var empty_placeholder = new ListStore(typeof(Lyric));
+                    empty_placeholder.append(new Lyric("<span style=\"italic\">Not playing anything</span>"));
+                    unsynced_list_view.model = new Gtk.NoSelection(empty_placeholder);
+                    stack.visible_child_name = "unsynced";
                 }
-
-                progress_bar.fraction = 1.0 * mpris.position / mpris.length;
 			} catch(GLib.Error e) {
 			    error(e.message);
 			}

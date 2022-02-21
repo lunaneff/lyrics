@@ -35,23 +35,28 @@ namespace Lyrics {
 
             if(mpris_metadata.contains("xesam:title")) {
                 title = mpris_metadata.get("xesam:title").get_string();
+                if(title == "") title = null;
             }
 
             if(mpris_metadata.contains("xesam:artist")) {
                 artists = mpris_metadata.get("xesam:artist").get_strv();
+                if(artists.length == 0) artists = null;
             }
 
             if(mpris_metadata.contains("xesam:album")) {
                 album = mpris_metadata.get("xesam:album").get_string();
+                if(album == "") album = null;
             }
 
             if(mpris_metadata.contains("mpris:length")) {
                 // mpris:length is in microseconds, we want seconds
                 duration = mpris_metadata.get("mpris:length").get_uint64() / 1000000;
+                if(duration == 0) duration = null;
             }
 
             if(mpris_metadata.contains("mpris:trackid")) {
                 track_id = mpris_metadata.get("mpris:trackid").get_string();
+                if(track_id == "") track_id = null;
             }
 
             switch(player) {
