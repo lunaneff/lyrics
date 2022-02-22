@@ -23,6 +23,7 @@ namespace Lyrics.Provider {
         private Soup.Session session;
         private Regex simple_lyrics_regex;
         private Regex complex_lyrics_regex;
+        private Regex tag_regex;
 
         public bool supports_unsynced { get { return true; } }
         public bool supports_synced { get { return false; } }
@@ -31,6 +32,7 @@ namespace Lyrics.Provider {
             session = new Soup.Session();
             simple_lyrics_regex = new Regex("<div class=\"lyrics\">(.+?)<\\/div>");
             complex_lyrics_regex = new Regex("<div ([\\w-]+=[\\w\"]+ )+class=\"Lyrics__Container.+?>(.+?)<\\/div>");
+            tag_regex = new Regex("<[^>]+>");
         }
 
         public async string search(TrackInfo info) {
@@ -83,7 +85,8 @@ namespace Lyrics.Provider {
                 do {
                     var match = matches.fetch(2);
                     foreach(var line in match.split("<br/>")) {
-                        lyrics.append(new Lyric(line));
+                        var clean = tag_regex.replace(line, -1, 0, "");
+                        lyrics.append(new Lyric(clean));
                     }
                 } while(matches.next());
             }
