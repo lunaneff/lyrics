@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-	<id>ch.laurinneff.Lyrics.desktop</id>
+	<id>ch.laurinneff.Lyrics</id>
+  <name>Lyrics</name>
+  <summary>Sing along with your favorite songs</summary>
+  <description>
+    <p>See the lyrics for whatever song is currently playing. Currently, the lyrics come from Genius, with more to come in the future</p>
+  </description>
+  <developer_name>Laurin Neff</developer_name>
+  <screenshots>
+    <screenshot>
+      <image>https://github.com/laurinneff/lyrics/raw/master/data/appstream/1.png</image>
+    </screenshot>
+  </screenshots>
+  <launchable type="desktop-id">ch.laurinneff.Lyrics.desktop</launchable>
+  <url type="homepage">https://github.com/laurinneff/lyrics</url>
+  <url type="bugtracker">https://github.com/laurinneff/lyrics/issues</url>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>GPL-3.0-or-later</project_license>
-	<description>
-	  <p>No description</p>
-	</description>
+  <categories>
+    <category>AudioVideo</category>
+    <category>Audio</category>
+    <category>Utility</category>
+  </categories>
+  <content_rating type="oars-1.1" />
+  <releases></releases>
+
+  <update_contact>laurin at laurinneff dot ch</update_contact>
 </component>
